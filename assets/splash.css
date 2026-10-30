@@ -127,7 +127,7 @@ body::before {
   75% { transform: scale(0.97, 1.05) skewX(-1deg); }
 }
 
-/* Dil seçilince butonlar ve oda ışığı çekilir, logo kapak olarak kalır */
+/* Dil seçilince butonlar ve oda ışığı çekilir, logo yerinde kalır */
 .is-leaving body::before, .is-leaving .choose { animation: gone 0.12s ease forwards; }
 @keyframes gone {
   from { opacity: 1; }
@@ -158,23 +158,8 @@ body::before {
   outline: none;
 }
 
-/* Site açılırken logo fırının içinden silinir */
-.wipe {
-  position: fixed;
-  inset: 0;
-  z-index: 5;
-  background: var(--cream);
-  pointer-events: none;
-  clip-path: circle(0 at var(--x, 50%) var(--y, 40%));
-}
-.wipe.is-on {
-  clip-path: circle(150vmax at var(--x, 50%) var(--y, 40%));
-  transition: clip-path 0.5s cubic-bezier(0.7, 0, 0.3, 1);
-}
-
 @media (prefers-reduced-motion: reduce) {
   body::before { animation: fade 0.01s forwards; }
   .draw, .fire, .word, .bakery, .choose { animation-duration: 0.01s; animation-delay: 0s; }
   .glow, .flame { animation: none; }
-  .wipe.is-on { transition: none; }
 }

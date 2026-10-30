@@ -19,12 +19,12 @@
 <link rel="stylesheet" href="../assets/styles.css">
 <script>document.documentElement.classList.add("js")</script>
 <script>try{var v=JSON.parse(sessionStorage.getItem("fornova-veil"));sessionStorage.removeItem("fornova-veil");var h=document.documentElement;if(v&&v.to===h.lang&&Date.now()-v.t<5000){window.fornovaY=v.y;h.classList.add("veil-on")}}catch(e){}</script>
-<script>try{var d=JSON.parse(sessionStorage.getItem("fornova-doors"));if(d){sessionStorage.removeItem("fornova-doors");var r=document.documentElement;r.style.setProperty("--sx",d.x+"px");r.style.setProperty("--sy",d.y+"px");r.style.setProperty("--sw",d.w+"px");r.classList.add("doors-on")}}catch(e){}</script>
+<script>try{var e=JSON.parse(sessionStorage.getItem("fornova-enter"));sessionStorage.removeItem("fornova-enter");var r=document.documentElement;if(e&&e.to===r.lang&&Date.now()-e.t<5000){r.style.setProperty("--sx",e.x+"px");r.style.setProperty("--sy",e.y+"px");r.style.setProperty("--sw",e.w+"px");r.dataset.enter=e.exit;r.classList.add("enter-on")}}catch(e){}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Bakery","name":"Fornova Bakery","description":"Бёреки, симит, пахлава и турецкие десерты свежими под заказ. Доставка, самовывоз и мини-кафе с открытой кухней в Красногорске. +7 977 400 40 30","telephone":"+7 977 400 40 30","openingHours":"Mo-Su 08:00-21:00","email":"fornovagroup@mail.ru","servesCuisine":"Turkish","address":{"@type":"PostalAddress","streetAddress":"Бульвар Космонавтов, 7","addressLocality":"Krasnogorsk","addressCountry":"RU"},"sameAs":["https://www.instagram.com/fornova_bakery/","https://yandex.ru/maps/org/fornova_bakery/158809334810/"]}</script>
 </head>
 <body>
 <div class="veil" data-veil aria-hidden="true"><i class="veil__disc"></i><div class="veil__mark"><img src="../assets/mark-cream.svg" alt=""><b>Русский</b></div></div>
-<div class="doors" data-doors aria-hidden="true"><div class="doors__l"><img src="../assets/seal-static.svg" alt=""></div><div class="doors__r"><img src="../assets/seal-static.svg" alt=""></div></div>
+<div class="enter" data-enter aria-hidden="true"><img src="../assets/seal-static.svg" alt=""></div>
 <a class="skip" href="#menu">Меню</a>
 
 <header class="nav" data-nav>

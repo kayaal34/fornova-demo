@@ -1,6 +1,7 @@
 const seal = document.querySelector(".seal");
 const choose = document.querySelector("[data-choose]");
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const { exit = "fade", preview, base = "" } = document.documentElement.dataset;
 
 function savedLang() {
   try {
@@ -16,18 +17,21 @@ let gone = false;
 function go(lang) {
   if (gone) return;
   gone = true;
-  // Sitenin üstündeki kapak logoyu aynı yerde gösterip açılır.
+  // Sitenin üstündeki krem örtü logoyu aynı yerde gösterip çekilir.
   if (!reduced) {
     const box = seal.getBoundingClientRect();
     try {
-      sessionStorage.setItem("fornova-doors", JSON.stringify({ x: box.left, y: box.top, w: box.width }));
+      sessionStorage.setItem("fornova-enter", JSON.stringify({ x: box.left, y: box.top, w: box.width, exit, to: lang, t: Date.now() }));
     } catch {}
   }
   document.documentElement.classList.add("is-done", "is-leaving");
-  setTimeout(() => location.replace(`${lang}/`), reduced ? 0 : 130);
+  setTimeout(() => {
+    if (preview) location.href = `${base}${lang}/`;
+    else location.replace(`${lang}/`);
+  }, reduced ? 0 : 130);
 }
 
-const saved = savedLang();
+const saved = preview ? null : savedLang();
 
 if (saved) {
   // Dili seçmiş ziyaretçiye tekrar sorulmaz; dokunmak beklemeyi atlar.
@@ -47,7 +51,7 @@ if (saved) {
       if (event.metaKey || event.ctrlKey || event.shiftKey) return;
       event.preventDefault();
       try {
-        localStorage.setItem("fornova-lang", link.hreflang);
+        if (!preview) localStorage.setItem("fornova-lang", link.hreflang);
       } catch {}
       go(link.hreflang);
     });
@@ -58,6 +62,11 @@ if (saved) {
 for (const href of ["ru/", "tr/", "assets/styles.css", "assets/site.js", "assets/app.js", "assets/img/hero-1.webp", "assets/img/hero-1-640.webp"]) {
   const link = document.createElement("link");
   link.rel = "prefetch";
-  link.href = href;
+  link.href = base + href;
   document.head.append(link);
 }
+
+// Geri tuşuyla dönünce animasyon baştan oynar.
+addEventListener("pageshow", (event) => {
+  if (event.persisted) location.reload();
+});
