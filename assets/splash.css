@@ -1,0 +1,157 @@
+@font-face { font-family: "Onest"; font-weight: 500; font-display: swap; src: url(fonts/onest-cyrillic-500-normal.woff2) format("woff2"); unicode-range: U+0400-045F; }
+@font-face { font-family: "Onest"; font-weight: 500; font-display: swap; src: url(fonts/onest-latin-500-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131; }
+@font-face { font-family: "Onest"; font-weight: 500; font-display: swap; src: url(fonts/onest-latin-ext-500-normal.woff2) format("woff2"); unicode-range: U+0100-02BA; }
+
+:root {
+  --cream: #f5efdb;
+  --maroon: #4b0d0d;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; margin: 0; }
+
+body {
+  background: var(--cream);
+  color: var(--maroon);
+  font-family: "Onest", system-ui, -apple-system, "Segoe UI", sans-serif;
+  overflow: hidden;
+}
+
+/* Fırının ışığı odaya vuruyor */
+body::before {
+  content: "";
+  position: fixed;
+  left: 50%;
+  top: 34%;
+  width: 130vmin;
+  height: 130vmin;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, rgba(217, 130, 43, 0.16), rgba(217, 130, 43, 0) 72%);
+  opacity: 0;
+  animation: fade 0.7s ease-out 0.8s forwards;
+  pointer-events: none;
+}
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.splash {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 24px 16px calc(24px + env(safe-area-inset-bottom));
+}
+
+.seal { display: block; width: min(76vw, 62vh, 480px); height: auto; overflow: visible; }
+
+/* Sıra: kemer çizilir, ateş yanar, isim gelir */
+.draw {
+  fill: none;
+  stroke: #fff;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 0.95s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+.draw--outer { stroke-width: 50; }
+.draw--inner { stroke-width: 36; animation-delay: 0.15s; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+.fire { opacity: 0; animation: fade 0.5s ease-out 0.95s forwards; }
+.word { opacity: 0; animation: lift 0.5s ease-out 1.3s forwards; }
+.bakery { opacity: 0; animation: fade 0.45s ease 1.7s forwards; }
+.choose { opacity: 0; animation: lift 0.4s ease-out 2.1s forwards; }
+
+/* Ekrana dokunulursa animasyon anında biter */
+.is-done .draw { animation: none; stroke-dashoffset: 0; }
+.is-done .fire, .is-done .word, .is-done .bakery, .is-done .choose { animation: none; opacity: 1; }
+
+@keyframes fade { to { opacity: 1; } }
+@keyframes lift {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+.glow {
+  transform-box: fill-box;
+  transform-origin: 50% 60%;
+  animation: breathe 3.4s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%, 100% { transform: scale(0.94); opacity: 0.8; }
+  50% { transform: scale(1); opacity: 1; }
+}
+
+.flame {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: lick 1.5s ease-in-out infinite;
+}
+.flame__o { fill: #c8641f; }
+.flame__i { fill: #e9b64e; }
+.f1 { animation-duration: 1.25s; animation-delay: -0.4s; }
+.f2 { animation-duration: 1.7s; animation-delay: -0.9s; }
+.f3 { animation-duration: 1.45s; }
+
+@keyframes lick {
+  0%, 100% { transform: scale(1, 1) skewX(0deg); }
+  25% { transform: scale(0.95, 1.08) skewX(-2.5deg); }
+  50% { transform: scale(1.03, 0.94) skewX(2deg); }
+  75% { transform: scale(0.97, 1.05) skewX(-1deg); }
+}
+
+/* Sadece ilk girişte görünür */
+.choose { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.choose[hidden] { display: none; }
+.choose a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 140px;
+  min-height: 52px;
+  padding: 12px 24px;
+  border: 1px solid var(--maroon);
+  border-radius: 999px;
+  color: var(--maroon);
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.25s, color 0.25s;
+}
+.choose a:hover, .choose a:focus-visible {
+  background: var(--maroon);
+  color: var(--cream);
+  outline: none;
+}
+
+/* Site açılırken logo fırının içinden silinir */
+.wipe {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  background: var(--cream);
+  pointer-events: none;
+  clip-path: circle(0 at var(--x, 50%) var(--y, 40%));
+}
+.wipe.is-on {
+  clip-path: circle(150vmax at var(--x, 50%) var(--y, 40%));
+  transition: clip-path 0.5s cubic-bezier(0.7, 0, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before { animation: fade 0.01s forwards; }
+  .draw, .fire, .word, .bakery, .choose { animation-duration: 0.01s; animation-delay: 0s; }
+  .glow, .flame { animation: none; }
+  .wipe.is-on { transition: none; }
+}
