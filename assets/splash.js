@@ -1,7 +1,7 @@
 const seal = document.querySelector(".seal");
 const choose = document.querySelector("[data-choose]");
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const { exit = "fade", preview, base = "" } = document.documentElement.dataset;
+const { exit = "fade", preview, base = "", v } = document.documentElement.dataset;
 
 function savedLang() {
   try {
@@ -59,7 +59,7 @@ if (saved) {
 }
 
 // Dil seçilince beklemesin diye site önceden indirilir.
-for (const href of ["ru/", "tr/", "assets/styles.css", "assets/site.js", "assets/app.js", "assets/img/hero-1.webp", "assets/img/hero-1-640.webp"]) {
+for (const href of ["ru/", "tr/", `assets/styles.css?v=${v}`, `assets/site.js?v=${v}`, `assets/app.js?v=${v}`, "assets/img/hero-1.webp", "assets/img/hero-1-640.webp"]) {
   const link = document.createElement("link");
   link.rel = "prefetch";
   link.href = base + href;

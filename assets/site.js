@@ -1,39 +1,6 @@
 // Ana sayfa ve Hakkımızda sayfasının ortak davranışları
 {
   const nav = document.querySelector("[data-nav]");
-  // Açılıştan gelince logo kaybolur, krem örtü yumuşakça çekilir.
-  if (document.documentElement.classList.contains("enter-on")) {
-    const html = document.documentElement;
-    const cover = document.querySelector("[data-enter]");
-    const mark = cover.firstElementChild;
-    const SOFT = "cubic-bezier(0.22, 1, 0.36, 1)";
-    let leaving;
-
-    if (html.dataset.enter === "float") {
-      const from = mark.getBoundingClientRect();
-      const to = document.querySelector(".nav__brand img").getBoundingClientRect();
-      const scale = (to.height * 1.6) / from.height;
-      const end = `translate(${to.left - from.left}px, ${to.top - from.top}px) scale(${scale})`;
-      mark.animate(
-        [{ transform: "none", opacity: 1 }, { opacity: 1, offset: 0.7 }, { transform: end, opacity: 0 }],
-        { duration: 850, easing: SOFT, fill: "forwards" },
-      );
-      leaving = cover.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 600, delay: 250, easing: "ease", fill: "forwards" });
-    } else if (html.dataset.enter === "lift") {
-      mark.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 350, easing: "ease", fill: "forwards" });
-      leaving = cover.animate([{ transform: "none" }, { transform: "translateY(-100%)" }], {
-        duration: 850,
-        delay: 200,
-        easing: "cubic-bezier(0.76, 0, 0.24, 1)",
-        fill: "forwards",
-      });
-    } else {
-      mark.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 450, easing: "ease", fill: "forwards" });
-      leaving = cover.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 800, delay: 150, easing: "ease", fill: "forwards" });
-    }
-    leaving.finished.then(() => html.classList.remove("enter-on")).catch(() => {});
-  }
-
   // Nazar boncuğuna dokununca sallanır.
   const nazar = document.querySelector(".nazar");
   nazar?.addEventListener("click", () => {

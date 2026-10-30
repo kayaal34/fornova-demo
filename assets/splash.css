@@ -7,10 +7,6 @@
   --maroon: #4b0d0d;
 }
 
-/* Sayfa değişirken arada boş ekran görünmesin */
-@view-transition { navigation: auto; }
-::view-transition-old(root), ::view-transition-new(root) { animation: none; }
-
 * { box-sizing: border-box; }
 
 html, body { height: 100%; margin: 0; }
