@@ -29,6 +29,7 @@
   --gutter: clamp(16px, 5vw, 72px);
   --edge: max(var(--gutter), calc((100vw - 1320px) / 2 + var(--gutter)));
   --nav-h: 72px;
+  --radius: 20px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -249,7 +250,6 @@ h3 { font-size: clamp(30px, 2.8vw, 38px); }
 @keyframes veil-lift { to { transform: translateY(-100%); } }
 
 /* Mobil menü */
-.nav__tel { display: none; }
 .burger { display: none; position: relative; }
 .burger summary {
   display: flex;
@@ -265,7 +265,10 @@ h3 { font-size: clamp(30px, 2.8vw, 38px); }
   list-style: none;
 }
 .burger summary::-webkit-details-marker { display: none; }
-.burger summary i { width: 18px; height: 1.5px; border-radius: 2px; background: var(--maroon); }
+.burger summary i { width: 18px; height: 1.5px; border-radius: 2px; background: var(--maroon); transition: transform 0.24s var(--ease); }
+.burger[open]:not(.is-closing) summary i:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.burger[open]:not(.is-closing) summary i:nth-child(2) { transform: scaleX(0); }
+.burger[open]:not(.is-closing) summary i:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 .burger nav {
   position: absolute;
   top: calc(100% + 10px);
@@ -278,9 +281,24 @@ h3 { font-size: clamp(30px, 2.8vw, 38px); }
   border-radius: 18px;
   background: var(--paper);
   box-shadow: 0 10px 28px rgba(42, 8, 8, 0.12);
+  transform-origin: top right;
 }
 .burger nav a { padding: 12px 14px; border-radius: 12px; color: var(--maroon); font-weight: 500; text-decoration: none; }
 .burger nav a[aria-current] { background: var(--band); }
+.burger[open] nav { animation: burger-in 0.32s var(--ease) both; }
+.burger[open] nav > * { animation: burger-item 0.24s ease-out both; }
+.burger[open] nav > :nth-child(1) { animation-delay: 60ms; }
+.burger[open] nav > :nth-child(2) { animation-delay: 100ms; }
+.burger[open] nav > :nth-child(3) { animation-delay: 140ms; }
+.burger[open] nav > :nth-child(4) { animation-delay: 180ms; }
+.burger[open] nav > :nth-child(5) { animation-delay: 220ms; }
+.burger[open] nav > :nth-child(6) { animation-delay: 260ms; }
+.burger.is-closing nav { animation: burger-out 0.18s ease-in forwards; }
+.burger.is-closing nav > * { animation: none; }
+@keyframes burger-in { from { opacity: 0; transform: translateY(-8px) scale(0.96); } }
+@keyframes burger-out { to { opacity: 0; transform: translateY(-8px) scale(0.96); } }
+@keyframes burger-item { from { opacity: 0; transform: translateY(6px); } }
+@keyframes burger-fade { from { opacity: 0; } }
 
 /* Açılış bölümü: yazı solda, fotoğraf karartmadan sağda */
 .hero {
@@ -299,7 +317,7 @@ h3 { font-size: clamp(30px, 2.8vw, 38px); }
 }
 .hero .lead { max-width: 46ch; margin-top: 22px; }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
-.hero__note { margin: 18px 0 0; color: var(--soft); font-size: 15px; }
+.hero__note { margin: 18px 0 0; color: var(--soft); font-size: 15px; text-wrap: balance; }
 .hero__photos { position: relative; min-height: 460px; overflow: hidden; background: var(--band); }
 .hero__photos img {
   position: absolute;
@@ -456,7 +474,7 @@ h3 { font-size: clamp(30px, 2.8vw, 38px); }
   gap: 12px;
   padding: 0 var(--edge);
 }
-.cafe__grid figure, .cafe__tea { height: clamp(320px, 34vw, 460px); overflow: hidden; }
+.cafe__grid figure, .cafe__tea { height: clamp(320px, 34vw, 460px); overflow: hidden; border-radius: var(--radius); }
 .cafe__grid img { width: 100%; height: 100%; object-fit: cover; }
 
 .cafe__tea {
@@ -563,9 +581,11 @@ h3 { font-size: clamp(30px, 2.8vw, 38px); }
 .services p { grid-column: 2; margin: 6px 0 0; color: var(--soft); font-size: 16px; }
 
 /* Sağdan sola kayan fotoğraflar; ikinci kopya döngüyü kesintisiz yapar */
-.rail { display: flex; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-.rail::-webkit-scrollbar { display: none; }
-.rail figure { flex: none; height: clamp(240px, 30vw, 420px); margin-right: 12px; overflow: hidden; border-radius: 16px; background: var(--band); }
+/* Dikey kaydırma sayfada kalır, yatay hareketi şerit kendi yönetir */
+.rail { overflow: hidden; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.rail.is-held { cursor: grabbing; }
+.rail__track { display: flex; width: max-content; will-change: transform; }
+.rail figure { flex: none; height: clamp(240px, 30vw, 420px); margin-right: 12px; overflow: hidden; border-radius: var(--radius); background: var(--band); }
 .rail img { width: auto; height: 100%; }
 
 .about-cta { padding: clamp(64px, 8vw, 112px) var(--gutter); text-align: center; }
@@ -624,15 +644,6 @@ h3 { font-size: clamp(30px, 2.8vw, 38px); }
   body { font-size: 16px; }
   .nav__links, .nav__call { display: none; }
   .burger { display: block; }
-  .nav__tel {
-    display: grid;
-    place-items: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: var(--maroon);
-  }
-  .nav__tel svg { width: 20px; height: 20px; fill: var(--cream); }
   .langs span, .langs a { width: 36px; }
   .menu__cta .btn { display: block; width: 100%; white-space: normal; text-align: center; }
   .menu__cta .nowrap { white-space: nowrap; }
@@ -677,16 +688,21 @@ h3 { font-size: clamp(30px, 2.8vw, 38px); }
   .services { grid-template-columns: 1fr; }
   .contact { grid-template-columns: 1fr; }
   .contact__text { padding-right: var(--gutter); }
-  .map { min-height: 400px; }
+  .map { min-height: 280px; }
+}
+
+@media (max-width: 400px) {
+  .hero__text .eyebrow { padding-right: 44px; }
 }
 
 @media (max-width: 380px) {
   .nav__in { gap: 8px; }
-  .nav__brand img { width: 108px; height: 25px; }
   .langs span, .langs a { width: 32px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .burger[open] nav { animation: burger-fade 0.12s ease both; }
+  .burger[open] nav > *, .burger.is-closing nav { animation: none; }
   html { scroll-behavior: auto; }
   .hero__text, .nazar, .glass__wave, .glass.is-full .glass__steam path { animation: none; }
   .hero__photos img { animation: none; }

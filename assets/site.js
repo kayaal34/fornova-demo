@@ -90,11 +90,26 @@
 
   // Mobil menü bir bağlantıya veya dışına dokununca kapanır.
   const burger = document.querySelector("[data-burger]");
+  const closeBurger = () => {
+    if (!burger.open || burger.classList.contains("is-closing")) return;
+    burger.classList.add("is-closing");
+    setTimeout(() => {
+      burger.classList.remove("is-closing");
+      burger.open = false;
+    }, 180);
+  };
   burger.addEventListener("click", (event) => {
-    if (event.target.closest("a")) burger.open = false;
+    if (event.target.closest("a")) closeBurger();
+    else if (event.target.closest("summary") && burger.open) {
+      event.preventDefault();
+      closeBurger();
+    }
   });
   document.addEventListener("click", (event) => {
-    if (!burger.contains(event.target)) burger.open = false;
+    if (!burger.contains(event.target)) closeBurger();
+  });
+  addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeBurger();
   });
 
   const revealObserver = new IntersectionObserver(
@@ -109,58 +124,87 @@
   );
   document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
 
-  // Foto şeridi yavaşça kayar; dokununca durur, bırakınca bir süre sonra devam eder.
+  // Foto şeridi yavaşça kayar. Parmağı takip eder, hızlı atınca hızlı gider
+  // ve yavaşlayarak kendi akışına döner. Basılıyken durur.
   const rail = document.querySelector("[data-rail]");
-  if (rail && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    const SPEED = 0.035;
-    const RESUME = 1200;
+  if (rail) {
+    const track = rail.firstElementChild;
+    const DRIFT = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 0.04;
+    const FRICTION = 0.0022;
+    const MAX_SPEED = 4;
+    let half = 0;
     let pos = 0;
-    let paused = false;
-    let timer;
+    let speed = DRIFT;
+    let target = DRIFT;
+    let held = null;
     let last = performance.now();
+    let visible = true;
 
-    const half = () => rail.scrollWidth / 2;
-
-    const hold = () => {
-      paused = true;
-      clearTimeout(timer);
-    };
-    const release = () => {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        pos = rail.scrollLeft;
-        paused = false;
-      }, RESUME);
+    const clamp = (value) => Math.max(-MAX_SPEED, Math.min(MAX_SPEED, value));
+    const paint = () => {
+      if (half) pos = ((pos % half) + half) % half;
+      track.style.transform = `translate3d(${-pos}px, 0, 0)`;
     };
 
     function step(now) {
-      const elapsed = Math.min(now - last, 50);
+      const elapsed = Math.min(now - last, 100);
       last = now;
-      if (!paused) {
-        pos += elapsed * SPEED;
-        if (pos >= half()) pos -= half();
-        rail.scrollLeft = pos;
+      if (!held && visible) {
+        speed = target + (speed - target) * Math.exp(-FRICTION * elapsed);
+        pos += speed * elapsed;
+        paint();
       }
       requestAnimationFrame(step);
     }
 
-    // Elle kaydırırken de şeridin sonu gelmesin.
-    rail.addEventListener(
-      "scroll",
-      () => {
-        if (!paused) return;
-        if (rail.scrollLeft >= half()) rail.scrollLeft -= half();
-        else if (rail.scrollLeft <= 0) rail.scrollLeft += half();
-      },
-      { passive: true },
-    );
-    rail.addEventListener("pointerdown", hold);
-    rail.addEventListener("touchstart", hold, { passive: true });
+    const measure = () => {
+      half = track.offsetWidth / 2;
+    };
+    new ResizeObserver(measure).observe(track);
+    measure();
+    new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+    }).observe(rail);
+
+    rail.addEventListener("pointerdown", (event) => {
+      held = { id: event.pointerId, x: event.clientX, time: event.timeStamp };
+      speed = 0;
+      rail.classList.add("is-held");
+      rail.setPointerCapture(event.pointerId);
+    });
+    rail.addEventListener("pointermove", (event) => {
+      if (held?.id !== event.pointerId) return;
+      const moved = held.x - event.clientX;
+      const took = event.timeStamp - held.time;
+      pos += moved;
+      if (took > 0) speed = 0.7 * (moved / took) + 0.3 * speed;
+      held.x = event.clientX;
+      held.time = event.timeStamp;
+      paint();
+    });
+    const release = (event) => {
+      if (held?.id !== event.pointerId) return;
+      // Durup bırakınca fırlamasın.
+      speed = event.timeStamp - held.time > 80 ? 0 : clamp(speed);
+      held = null;
+      last = performance.now();
+      rail.classList.remove("is-held");
+    };
     rail.addEventListener("pointerup", release);
     rail.addEventListener("pointercancel", release);
-    rail.addEventListener("touchend", release, { passive: true });
-    rail.addEventListener("mouseenter", hold);
-    rail.addEventListener("mouseleave", release);
+
+    // Bilgisayarda fare üstündeyken yavaşça durur, klavyeyle de gezilir.
+    rail.addEventListener("pointerenter", (event) => {
+      if (event.pointerType === "mouse") target = 0;
+    });
+    rail.addEventListener("pointerleave", (event) => {
+      if (event.pointerType === "mouse") target = DRIFT;
+    });
+    rail.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") speed = 1.2;
+      if (event.key === "ArrowLeft") speed = -1.2;
+    });
+
     requestAnimationFrame(step);
   }
 }
