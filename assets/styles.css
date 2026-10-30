@@ -160,40 +160,27 @@ h3 { font-size: clamp(30px, 2.8vw, 38px); }
 .langs a { color: var(--soft); }
 .langs a:hover { color: var(--maroon); }
 
-/* Açılıştan siteye: logo yerinde kalır, krem örtü yumuşakça çekilir.
+/* Açılıştan siteye: logo yerinde kalır, krem örtü yumuşakça yukarı kalkar.
    Yalnızca CSS ile çalışır, script gecikse de ilk boyamada başlar. */
 .enter { display: none; }
 .enter-on .enter {
   position: fixed;
-  inset: 0;
+  inset: 0 0 -12vh;
   z-index: 70;
   display: block;
-  background: var(--bg);
-  pointer-events: none;
-  will-change: opacity, transform;
-  animation: enter-cover 0.9s ease 0.4s forwards;
-}
-.enter img { position: absolute; left: var(--sx); top: var(--sy); width: var(--sw); max-width: none; height: auto; transform-origin: 0 0; will-change: opacity, transform; animation: enter-mark 0.5s ease 0.15s forwards; }
-.enter-on .hero__text { animation-delay: 0.55s; animation-duration: 1s; }
-.enter-on .hero__photos { animation: enter-photos 1.5s var(--ease) 0.35s both; }
-@keyframes enter-cover { to { opacity: 0; visibility: hidden; } }
-@keyframes enter-mark { to { opacity: 0; } }
-@keyframes enter-photos { from { opacity: 0; transform: scale(1.05); } }
-
-.enter-on[data-enter="float"] .enter { animation-duration: 0.7s; animation-delay: 0.45s; }
-.enter-on[data-enter="float"] .enter img { animation: enter-float 1.05s var(--ease) 0.1s forwards; }
-@keyframes enter-float {
-  70% { opacity: 1; }
-  to { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(var(--ts)); }
-}
-
-.enter-on[data-enter="lift"] .enter {
-  bottom: -12vh;
   border-radius: 0 0 50% 50% / 0 0 12vh 12vh;
+  background: var(--bg);
   box-shadow: 0 10px 34px rgba(42, 8, 8, 0.14);
+  pointer-events: none;
+  will-change: transform;
   animation: enter-lift 0.95s cubic-bezier(0.76, 0, 0.24, 1) 0.35s forwards;
 }
+.enter img { position: absolute; left: var(--sx); top: var(--sy); width: var(--sw); max-width: none; height: auto; will-change: opacity; animation: enter-mark 0.5s ease 0.15s forwards; }
+.enter-on .hero__text { animation-delay: 0.55s; animation-duration: 1s; }
+.enter-on .hero__photos { animation: enter-photos 1.5s var(--ease) 0.35s both; }
 @keyframes enter-lift { to { transform: translateY(-100%); visibility: hidden; } }
+@keyframes enter-mark { to { opacity: 0; } }
+@keyframes enter-photos { from { opacity: 0; transform: scale(1.05); } }
 
 /* Dil değişince seçilen düğmeden bordo bir perde yayılır, yeni dilde yukarı kalkar */
 .veil { display: none; position: fixed; z-index: 1000; inset: 0; overflow: hidden; pointer-events: none; }

@@ -18,21 +18,6 @@ body {
   overflow: hidden;
 }
 
-/* Fırının ışığı odaya vuruyor */
-body::before {
-  content: "";
-  position: fixed;
-  left: 50%;
-  top: 34%;
-  width: 130vmin;
-  height: 130vmin;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(closest-side, rgba(217, 130, 43, 0.16), rgba(217, 130, 43, 0) 72%);
-  opacity: 0;
-  animation: fade 0.7s ease-out 0.8s forwards;
-  pointer-events: none;
-}
-
 .sr {
   position: absolute;
   width: 1px;
@@ -64,16 +49,16 @@ body::before {
   stroke: #fff;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  animation: draw 0.95s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  animation: draw 0.7s cubic-bezier(0.65, 0, 0.35, 1) forwards;
 }
 .draw--outer { stroke-width: 50; }
-.draw--inner { stroke-width: 36; animation-delay: 0.15s; }
+.draw--inner { stroke-width: 36; animation-delay: 0.1s; }
 @keyframes draw { to { stroke-dashoffset: 0; } }
 
-.fire { opacity: 0; animation: fade 0.5s ease-out 0.95s forwards; }
-.word { opacity: 0; animation: lift 0.5s ease-out 1.3s forwards; }
-.bakery { opacity: 0; animation: fade 0.45s ease 1.7s forwards; }
-.choose { opacity: 0; animation: lift 0.4s ease-out 2.1s forwards; }
+.fire { opacity: 0; animation: fade 0.4s ease-out 0.55s forwards; }
+.word { opacity: 0; animation: lift 0.4s ease-out 0.8s forwards; }
+.bakery { opacity: 0; animation: fade 0.35s ease 1.05s forwards; }
+.choose { opacity: 0; animation: lift 0.35s ease-out 1.3s forwards; }
 
 /* Ekrana dokunulursa animasyon anında biter */
 .is-done .draw { animation: none; stroke-dashoffset: 0; }
@@ -86,22 +71,6 @@ body::before {
 }
 
 .fire { position: absolute; inset: 0; }
-.glow {
-  position: absolute;
-  left: 36.1%;
-  top: 15.6%;
-  width: 27.8%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(233, 182, 78, 0.75), rgba(217, 130, 43, 0.22) 55%, rgba(217, 130, 43, 0));
-  will-change: transform, opacity;
-  animation: breathe 3.4s ease-in-out infinite;
-}
-@keyframes breathe {
-  0%, 100% { transform: scale(0.94); opacity: 0.8; }
-  50% { transform: scale(1); opacity: 1; }
-}
-
 .flame {
   position: absolute;
   height: auto;
@@ -123,8 +92,8 @@ body::before {
   75% { transform: scale(0.97, 1.05) skewX(-1deg); }
 }
 
-/* Dil seçilince butonlar ve oda ışığı çekilir, logo yerinde kalır */
-.is-leaving body::before, .is-leaving .choose { animation: gone 0.12s ease forwards; }
+/* Dil seçilince butonlar çekilir, logo yerinde kalır */
+.is-leaving .choose { animation: gone 0.12s ease forwards; }
 @keyframes gone {
   from { opacity: 1; }
   to { opacity: 0; }
@@ -155,7 +124,6 @@ body::before {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body::before { animation: fade 0.01s forwards; }
   .draw, .fire, .word, .bakery, .choose { animation-duration: 0.01s; animation-delay: 0s; }
-  .glow, .flame { animation: none; }
+  .flame { animation: none; }
 }
