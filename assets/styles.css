@@ -541,23 +541,19 @@ html:not(.js) .dots { display: none; }
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0 clamp(32px, 6vw, 88px);
-  margin-top: 32px;
-  counter-reset: service;
+  margin: 32px 0 0;
+  padding: 0;
+  list-style: none;
 }
 .services li {
   display: grid;
-  grid-template-columns: 48px minmax(0, 1fr);
+  grid-template-columns: 56px minmax(0, 1fr);
+  column-gap: 18px;
   padding: 24px 0;
   border-top: 1px solid var(--line);
-  counter-increment: service;
 }
-.services li::before {
-  content: "0" counter(service);
-  padding-top: 11px;
-  color: var(--accent);
-  font: 600 13px var(--sans);
-  letter-spacing: 0.14em;
-}
+.services svg { grid-row: 1 / span 2; width: 56px; height: 56px; fill: none; stroke: var(--maroon); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.services svg .accent { stroke: var(--accent); }
 .services h3 { font-size: 28px; }
 .services p { grid-column: 2; margin: 6px 0 0; color: var(--soft); font-size: 16px; }
 
