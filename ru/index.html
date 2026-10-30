@@ -15,12 +15,15 @@
 <link rel="alternate" hreflang="tr" href="../tr/">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../assets/logo-seal.png">
+<style>html{background:#F5EFDB}</style>
 <link rel="stylesheet" href="../assets/styles.css">
 <script>document.documentElement.classList.add("js")</script>
+<script>try{var v=JSON.parse(sessionStorage.getItem("fornova-veil"));sessionStorage.removeItem("fornova-veil");var h=document.documentElement;if(v&&v.to===h.lang&&Date.now()-v.t<5000){window.fornovaY=v.y;h.classList.add("veil-on")}}catch(e){}</script>
 <script>try{var d=JSON.parse(sessionStorage.getItem("fornova-doors"));if(d){sessionStorage.removeItem("fornova-doors");var r=document.documentElement;r.style.setProperty("--sx",d.x+"px");r.style.setProperty("--sy",d.y+"px");r.style.setProperty("--sw",d.w+"px");r.classList.add("doors-on")}}catch(e){}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Bakery","name":"Fornova Bakery","description":"Бёреки, симит, пахлава и турецкие десерты свежими под заказ. Доставка, самовывоз и мини-кафе с открытой кухней в Красногорске. +7 977 400 40 30","telephone":"+7 977 400 40 30","openingHours":"Mo-Su 08:00-21:00","email":"fornovagroup@mail.ru","servesCuisine":"Turkish","address":{"@type":"PostalAddress","streetAddress":"Бульвар Космонавтов, 7","addressLocality":"Krasnogorsk","addressCountry":"RU"},"sameAs":["https://www.instagram.com/fornova_bakery/","https://yandex.ru/maps/org/fornova_bakery/158809334810/"]}</script>
 </head>
 <body>
+<div class="veil" data-veil aria-hidden="true"><i class="veil__disc"></i><div class="veil__mark"><img src="../assets/mark-cream.svg" alt=""><b>Русский</b></div></div>
 <div class="doors" data-doors aria-hidden="true"><div class="doors__l"><img src="../assets/seal-static.svg" alt=""></div><div class="doors__r"><img src="../assets/seal-static.svg" alt=""></div></div>
 <a class="skip" href="#menu">Меню</a>
 
@@ -39,6 +42,7 @@
         <a href="../tr/" hreflang="tr" lang="tr" aria-label="Türkçe">TR</a>
       </div>
       <a class="btn btn--solid btn--sm nav__call" href="tel:+79774004030">Позвонить</a>
+      <a class="nav__tel" href="tel:+79774004030" aria-label="Позвонить: +7 977 400 40 30"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5 9 3a1 1 0 0 1 1.1.6l1.2 2.9a1 1 0 0 1-.3 1.1L9.4 9.2a12 12 0 0 0 5.4 5.4l1.6-1.6a1 1 0 0 1 1.1-.3l2.9 1.2a1 1 0 0 1 .6 1.1l-.5 2.4a2 2 0 0 1-2 1.6C10.700 19.500 4.500 13.300 5 5.500a2 2 0 0 1 1.600-2Z"/></svg></a>
       <details class="burger" data-burger>
         <summary aria-label="Меню"><i></i><i></i><i></i></summary>
         <nav aria-label="Меню">
@@ -333,7 +337,7 @@
       </section>
     </div>
     <p class="menu__empty" data-empty hidden>Ничего не нашлось. Позвоните нам, и мы подскажем. <a href="tel:+79774004030">+7 977 400 40 30</a></p>
-    <div class="menu__cta"><a class="btn btn--solid" href="tel:+79774004030">Заказать по телефону: +7 977 400 40 30</a></div>
+    <div class="menu__cta"><a class="btn btn--solid" href="tel:+79774004030">Заказать по телефону: <span class="nowrap">+7 977 400 40 30</span></a></div>
   </section>
 
   <section class="cafe" id="cafe" aria-labelledby="cafe-title">
@@ -406,7 +410,6 @@
   <p class="footer__legal">© 2026 Fornova Bakery</p>
 </footer>
 
-<a class="callbar" href="tel:+79774004030">Позвонить: +7 977 400 40 30</a>
 <script src="../assets/site.js" defer></script>
 <script src="../assets/app.js" defer></script>
 </body>

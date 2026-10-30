@@ -24,7 +24,7 @@ function go(lang) {
     } catch {}
   }
   document.documentElement.classList.add("is-done", "is-leaving");
-  setTimeout(() => location.replace(`${lang}/`), reduced ? 0 : 240);
+  setTimeout(() => location.replace(`${lang}/`), reduced ? 0 : 130);
 }
 
 const saved = savedLang();
@@ -52,4 +52,12 @@ if (saved) {
       go(link.hreflang);
     });
   });
+}
+
+// Dil seçilince beklemesin diye site önceden indirilir.
+for (const href of ["ru/", "tr/", "assets/styles.css", "assets/site.js", "assets/app.js", "assets/img/hero-1.webp", "assets/img/hero-1-640.webp"]) {
+  const link = document.createElement("link");
+  link.rel = "prefetch";
+  link.href = href;
+  document.head.append(link);
 }
