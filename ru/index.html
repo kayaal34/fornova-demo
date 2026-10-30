@@ -68,10 +68,13 @@
       </div>
       <p class="hero__note">Без минимального заказа · Самовывоз бесплатно</p>
     </div>
-    <div class="hero__photos" aria-hidden="true">
-      <img style="--n:0" src="../assets/img/hero-1.webp" srcset="../assets/img/hero-1-640.webp 640w, ../assets/img/hero-1.webp 960w" sizes="(max-width: 860px) 100vw, 50vw" alt="" width="960" height="1200" fetchpriority="high">
-      <img style="--n:1" src="../assets/img/hero-2.webp" srcset="../assets/img/hero-2-640.webp 640w, ../assets/img/hero-2.webp 960w" sizes="(max-width: 860px) 100vw, 50vw" alt="" width="960" height="1200" loading="lazy">
-      <img style="--n:2" src="../assets/img/hero-3.webp" srcset="../assets/img/hero-3-640.webp 640w, ../assets/img/hero-3.webp 960w" sizes="(max-width: 860px) 100vw, 50vw" alt="" width="960" height="1200" loading="lazy">
+    <div class="hero__photos" data-slider>
+      <div class="hero__track">
+        <img src="../assets/img/hero-1.webp" srcset="../assets/img/hero-1-640.webp 640w, ../assets/img/hero-1.webp 960w" sizes="(max-width: 860px) 100vw, 50vw" alt="" width="960" height="1200" fetchpriority="high" draggable="false">
+        <img src="../assets/img/hero-2.webp" srcset="../assets/img/hero-2-640.webp 640w, ../assets/img/hero-2.webp 960w" sizes="(max-width: 860px) 100vw, 50vw" alt="" width="960" height="1200" decoding="async" draggable="false">
+        <img src="../assets/img/hero-3.webp" srcset="../assets/img/hero-3-640.webp 640w, ../assets/img/hero-3.webp 960w" sizes="(max-width: 860px) 100vw, 50vw" alt="" width="960" height="1200" decoding="async" draggable="false">
+      </div>
+      <div class="dots"><button type="button" aria-label="1" aria-current="true"></button><button type="button" aria-label="2"></button><button type="button" aria-label="3"></button></div>
     </div>
   </section>
 
@@ -103,9 +106,9 @@
 
     <div class="cats">
       <section class="cat" id="borek" data-cat aria-labelledby="h-borek">
-        <figure class="cat__photo"><img src="../assets/img/menu-borek.webp" srcset="../assets/img/menu-borek-640.webp 640w, ../assets/img/menu-borek.webp 1200w" sizes="(max-width: 860px) 100vw, 42vw" alt="Бёреки" width="1200" height="900" loading="lazy" decoding="async"></figure>
+        <figure class="cat__photo"><img src="../assets/img/menu-borek.webp" srcset="../assets/img/menu-borek-640.webp 640w, ../assets/img/menu-borek.webp 1200w" sizes="(max-width: 860px) 100vw, 60vw" alt="Бёреки" width="1200" height="900" loading="lazy" decoding="async"></figure>
         <div class="cat__body">
-          <h3 id="h-borek"><span>01</span>Бёреки</h3>
+          <h3 id="h-borek">Бёреки</h3>
           <ul class="rows">
 <li class="row" data-search="Су бёрек Su Böreği">
             <span class="row__name">Су бёрек<em>нежный слоёный пирог</em></span>
@@ -131,9 +134,9 @@
         </div>
       </section>
       <section class="cat" id="simit" data-cat aria-labelledby="h-simit">
-        <figure class="cat__photo"><img src="../assets/img/menu-simit.webp" srcset="../assets/img/menu-simit-640.webp 640w, ../assets/img/menu-simit.webp 1200w" sizes="(max-width: 860px) 100vw, 42vw" alt="Симит и кольца" width="1200" height="900" loading="lazy" decoding="async"></figure>
+        <figure class="cat__photo"><img src="../assets/img/menu-simit.webp" srcset="../assets/img/menu-simit-640.webp 640w, ../assets/img/menu-simit.webp 1200w" sizes="(max-width: 860px) 100vw, 60vw" alt="Симит и кольца" width="1200" height="900" loading="lazy" decoding="async"></figure>
         <div class="cat__body">
-          <h3 id="h-simit"><span>02</span>Симит и кольца</h3>
+          <h3 id="h-simit">Симит и кольца</h3>
           <ul class="rows">
 <li class="row" data-search="Симит Simit">
             <span class="row__name">Симит</span>
@@ -171,9 +174,9 @@
         </div>
       </section>
       <section class="cat" id="pogaca" data-cat aria-labelledby="h-pogaca">
-        <figure class="cat__photo"><img src="../assets/img/menu-pogaca.webp" srcset="../assets/img/menu-pogaca-640.webp 640w, ../assets/img/menu-pogaca.webp 1200w" sizes="(max-width: 860px) 100vw, 42vw" alt="Пирожки" width="1200" height="900" loading="lazy" decoding="async"></figure>
+        <figure class="cat__photo"><img src="../assets/img/menu-pogaca.webp" srcset="../assets/img/menu-pogaca-640.webp 640w, ../assets/img/menu-pogaca.webp 1200w" sizes="(max-width: 860px) 100vw, 60vw" alt="Пирожки" width="1200" height="900" loading="lazy" decoding="async"></figure>
         <div class="cat__body">
-          <h3 id="h-pogaca"><span>03</span>Пирожки</h3>
+          <h3 id="h-pogaca">Пирожки</h3>
           <ul class="rows">
 <li class="row" data-search="Пирожок без начинки Poğaça Sade">
             <span class="row__name">Пирожок без начинки</span>
@@ -207,9 +210,9 @@
         </div>
       </section>
       <section class="cat" id="baklava" data-cat aria-labelledby="h-baklava">
-        <figure class="cat__photo"><img src="../assets/img/menu-baklava.webp" srcset="../assets/img/menu-baklava-640.webp 640w, ../assets/img/menu-baklava.webp 1200w" sizes="(max-width: 860px) 100vw, 42vw" alt="Пахлава" width="1200" height="900" loading="lazy" decoding="async"></figure>
+        <figure class="cat__photo"><img src="../assets/img/menu-baklava.webp" srcset="../assets/img/menu-baklava-640.webp 640w, ../assets/img/menu-baklava.webp 1200w" sizes="(max-width: 860px) 100vw, 60vw" alt="Пахлава" width="1200" height="900" loading="lazy" decoding="async"></figure>
         <div class="cat__body">
-          <h3 id="h-baklava"><span>04</span>Пахлава</h3>
+          <h3 id="h-baklava">Пахлава</h3>
           <ul class="rows">
 <li class="row" data-search="Сарма с фисташками Fıstıklı Sarma">
             <span class="row__name">Сарма с фисташками</span>
@@ -255,9 +258,9 @@
         </div>
       </section>
       <section class="cat" id="tatli" data-cat aria-labelledby="h-tatli">
-        <figure class="cat__photo"><img src="../assets/img/menu-tatli.webp" srcset="../assets/img/menu-tatli-640.webp 640w, ../assets/img/menu-tatli.webp 1200w" sizes="(max-width: 860px) 100vw, 42vw" alt="Десерты" width="1200" height="900" loading="lazy" decoding="async"></figure>
+        <figure class="cat__photo"><img src="../assets/img/menu-tatli.webp" srcset="../assets/img/menu-tatli-640.webp 640w, ../assets/img/menu-tatli.webp 1200w" sizes="(max-width: 860px) 100vw, 60vw" alt="Десерты" width="1200" height="900" loading="lazy" decoding="async"></figure>
         <div class="cat__body">
-          <h3 id="h-tatli"><span>05</span>Десерты</h3>
+          <h3 id="h-tatli">Десерты</h3>
           <ul class="rows">
 <li class="row" data-search="Профитроли Profiterol">
             <span class="row__name">Профитроли<em>450 г</em></span>
@@ -295,9 +298,9 @@
         </div>
       </section>
       <section class="cat" id="kurabiye" data-cat aria-labelledby="h-kurabiye">
-        <figure class="cat__photo"><img src="../assets/img/menu-kurabiye.webp" srcset="../assets/img/menu-kurabiye-640.webp 640w, ../assets/img/menu-kurabiye.webp 1200w" sizes="(max-width: 860px) 100vw, 42vw" alt="Печенье" width="1200" height="900" loading="lazy" decoding="async"></figure>
+        <figure class="cat__photo"><img src="../assets/img/menu-kurabiye.webp" srcset="../assets/img/menu-kurabiye-640.webp 640w, ../assets/img/menu-kurabiye.webp 1200w" sizes="(max-width: 860px) 100vw, 60vw" alt="Печенье" width="1200" height="900" loading="lazy" decoding="async"></figure>
         <div class="cat__body">
-          <h3 id="h-kurabiye"><span>06</span>Печенье</h3>
+          <h3 id="h-kurabiye">Печенье</h3>
           <ul class="rows">
 <li class="row" data-search="Ассорти сладкого печенья Karışık Tatlı Kurabiye">
             <span class="row__name">Ассорти сладкого печенья</span>

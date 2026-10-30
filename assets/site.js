@@ -112,6 +112,87 @@
     if (event.key === "Escape") closeBurger();
   });
 
+  // Ana sayfa fotoğrafları: kaydırılır, noktalarla seçilir, dokunulmazsa kendi geçer.
+  const slider = document.querySelector("[data-slider]");
+  if (slider) {
+    const track = slider.firstElementChild;
+    const dots = [...slider.querySelectorAll(".dots button")];
+    const slides = [...track.children];
+    const count = slides.length;
+    const WAIT = 4500;
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let index = 0;
+    let drag = null;
+    let timer;
+    let visible = true;
+
+    // Sondan başa dönerken geri sarmasın diye iki uca kopya konur.
+    track.append(slides[0].cloneNode());
+    track.prepend(slides[count - 1].cloneNode());
+
+    const place = (animate, offset = 0) => {
+      track.style.transition = animate ? "" : "none";
+      track.style.transform = `translate3d(calc(${-(index + 1) * 100}% + ${offset}px), 0, 0)`;
+    };
+    const wrap = () => {
+      if (index >= 0 && index < count) return;
+      index = (index + count) % count;
+      place(false);
+      track.getBoundingClientRect();
+    };
+    const schedule = () => {
+      clearTimeout(timer);
+      if (reduced) return;
+      timer = setTimeout(() => (visible ? go(index + 1) : schedule()), WAIT);
+    };
+    function go(next) {
+      wrap();
+      index = next;
+      dots.forEach((dot, i) => {
+        if (i === (index + count) % count) dot.setAttribute("aria-current", "true");
+        else dot.removeAttribute("aria-current");
+      });
+      place(true);
+      if (reduced) wrap();
+      schedule();
+    }
+
+    track.addEventListener("transitionend", (event) => {
+      if (event.target === track) wrap();
+    });
+    dots.forEach((dot, i) => dot.addEventListener("click", () => go(i)));
+
+    slider.addEventListener("pointerdown", (event) => {
+      if (event.target.closest("button")) return;
+      clearTimeout(timer);
+      wrap();
+      drag = { id: event.pointerId, x: event.clientX, time: event.timeStamp, moved: 0 };
+      slider.setPointerCapture(event.pointerId);
+      place(false);
+    });
+    slider.addEventListener("pointermove", (event) => {
+      if (drag?.id !== event.pointerId) return;
+      drag.moved = event.clientX - drag.x;
+      place(false, drag.moved);
+    });
+    const release = (event) => {
+      if (drag?.id !== event.pointerId) return;
+      const { moved, time } = drag;
+      drag = null;
+      const fast = Math.abs(moved) / (event.timeStamp - time || 1) > 0.4;
+      const far = Math.abs(moved) > slider.offsetWidth * 0.18;
+      go(event.type === "pointerup" && moved && (fast || far) ? index - Math.sign(moved) : index);
+    };
+    slider.addEventListener("pointerup", release);
+    slider.addEventListener("pointercancel", release);
+
+    new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+    }).observe(slider);
+    place(false);
+    schedule();
+  }
+
   const revealObserver = new IntersectionObserver(
     (entries, obs) => {
       entries.forEach((entry) => {

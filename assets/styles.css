@@ -318,23 +318,23 @@ h3 { font-size: clamp(30px, 2.8vw, 38px); }
 .hero .lead { max-width: 46ch; margin-top: 22px; }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
 .hero__note { margin: 18px 0 0; color: var(--soft); font-size: 15px; text-wrap: balance; }
-.hero__photos { position: relative; min-height: 460px; overflow: hidden; background: var(--band); }
-.hero__photos img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  animation: show 18s linear infinite;
-  animation-delay: calc(var(--n) * 6s);
+.hero__photos { position: relative; min-height: 460px; overflow: hidden; background: var(--band); cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.hero__track { position: absolute; inset: 0; display: flex; will-change: transform; transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1); }
+.hero__track img { flex: 0 0 100%; width: 100%; height: 100%; object-fit: cover; }
+.dots { position: absolute; left: 0; right: 0; bottom: 6px; display: flex; justify-content: center; }
+html:not(.js) .dots { display: none; }
+.dots button { display: grid; place-items: center; width: 26px; height: 44px; padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.dots button::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cream);
+  box-shadow: 0 0 6px rgba(42, 8, 8, 0.5);
+  opacity: 0.55;
+  transition: opacity 0.5s, transform 0.5s var(--ease);
 }
-.hero__photos img:first-child { opacity: 1; }
-@keyframes show {
-  0%, 30% { opacity: 1; }
-  36%, 94% { opacity: 0; }
-  100% { opacity: 1; }
-}
+.dots button[aria-current]::before { opacity: 1; transform: scale(1.35); }
 
 /* Nazar boncuğu üst menüden sarkar */
 .hero__text { position: relative; }
@@ -436,23 +436,27 @@ h3 { font-size: clamp(30px, 2.8vw, 38px); }
 .search input::placeholder { color: var(--soft); }
 
 .cats { padding: 0 var(--edge); }
-.cat {
-  display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-  gap: clamp(32px, 6vw, 88px);
-  align-items: start;
-  padding: clamp(40px, 5vw, 64px) 0;
-  border-bottom: 1px solid var(--line);
-  scroll-margin-top: 60px;
+/* Fotoğraf net başlar, başlığa doğru kâğıda erir; liste düz zeminde kalır */
+.cat { position: relative; padding: 0 0 clamp(32px, 4vw, 56px); scroll-margin-top: 60px; }
+.cat__photo {
+  position: absolute;
+  inset: 0 calc(-1 * var(--edge)) auto 40%;
+  height: 300px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to left, #000 62%, transparent), linear-gradient(to bottom, #000 68%, transparent);
+  mask-image: linear-gradient(to left, #000 62%, transparent), linear-gradient(to bottom, #000 68%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
 }
-.cat:last-child { border-bottom: 0; }
-.cat__photo { position: sticky; top: calc(var(--nav-h) + 80px); overflow: hidden; aspect-ratio: 4 / 3; background: var(--band); }
-.cat__photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s var(--ease); }
-.cat__photo:hover img { transform: scale(1.03); }
-.cat h3 span { display: block; margin-bottom: 4px; color: var(--accent); font: 600 13px var(--sans); letter-spacing: 0.14em; }
+.cat__photo img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.06) saturate(1.08); }
+#borek .cat__photo img { object-position: 70% 40%; }
+#simit .cat__photo img { object-position: 50% 45%; }
+#baklava .cat__photo img { object-position: 50% 55%; }
+.cat__body { position: relative; z-index: 1; }
+.cat h3 { padding-top: 96px; color: var(--maroon); font-size: 44px; }
 
-.rows { margin-top: 14px; }
-.row { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.rows { columns: 2; column-gap: 64px; margin-top: 110px; }
+.row { break-inside: avoid; display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); }
 .row:last-child { border-bottom: 0; }
 .row__name { font-weight: 500; }
 .row__name em { display: block; color: var(--soft); font-size: 15px; font-style: normal; font-weight: 400; }
@@ -461,7 +465,9 @@ h3 { font-size: clamp(30px, 2.8vw, 38px); }
 .price--text { font-weight: 500; }
 
 .cats.is-filtered .cat__photo { display: none; }
-.cats.is-filtered .cat { grid-template-columns: 1fr; padding: 24px 0; }
+.cats.is-filtered .cat { padding: 12px 0; }
+.cats.is-filtered .cat h3 { padding-top: 0; }
+.cats.is-filtered .rows { margin-top: 14px; }
 .menu__empty { margin: 32px 0; padding: 0 var(--edge); }
 .menu__cta { padding: 8px var(--edge) clamp(56px, 7vw, 96px); }
 
@@ -672,8 +678,15 @@ h3 { font-size: clamp(30px, 2.8vw, 38px); }
   .tabs__pill { top: 6px; bottom: 6px; }
   .search { order: -1; width: auto; margin: 0 var(--gutter) 14px; }
 
-  .cat { grid-template-columns: 1fr; gap: 16px; padding: 28px 0; scroll-margin-top: 44px; }
-  .cat__photo { position: static; aspect-ratio: 16 / 9; }
+  .cat { padding: 0 0 32px; scroll-margin-top: 44px; }
+  .cat__photo {
+    inset: 0 calc(-1 * var(--edge)) auto;
+    height: 220px;
+    -webkit-mask-image: linear-gradient(to bottom, #000 58%, transparent 97%);
+    mask-image: linear-gradient(to bottom, #000 58%, transparent 97%);
+  }
+  .cat h3 { padding-top: 164px; font-size: 32px; }
+  .rows { columns: auto; margin-top: 14px; }
 
   .cafe__grid { grid-template-columns: 1fr 1fr; }
   .cafe__grid .cafe__a { grid-column: 1 / -1; height: auto; aspect-ratio: 4 / 3; }
@@ -705,6 +718,6 @@ h3 { font-size: clamp(30px, 2.8vw, 38px); }
   .burger[open] nav > *, .burger.is-closing nav { animation: none; }
   html { scroll-behavior: auto; }
   .hero__text, .nazar, .glass__wave, .glass.is-full .glass__steam path { animation: none; }
-  .hero__photos img { animation: none; }
+  .hero__track { transition: none; }
   .js .reveal { opacity: 1; transform: none; }
 }
