@@ -1,6 +1,17 @@
 // Ana sayfa ve Hakkımızda sayfasının ortak davranışları
 {
   const nav = document.querySelector("[data-nav]");
+  const doors = document.querySelector("[data-doors]");
+  if (doors) {
+    const done = () => doors.remove();
+    if (document.documentElement.classList.contains("doors-on")) {
+      doors.lastElementChild.addEventListener("animationend", done);
+      setTimeout(done, 2000);
+    } else {
+      done();
+    }
+  }
+
   const stick = () => nav.classList.toggle("is-stuck", scrollY > 8);
   addEventListener("scroll", stick, { passive: true });
   stick();

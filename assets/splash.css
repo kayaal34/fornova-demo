@@ -111,6 +111,13 @@ body::before {
   75% { transform: scale(0.97, 1.05) skewX(-1deg); }
 }
 
+/* Dil seçilince butonlar ve oda ışığı çekilir, logo kapak olarak kalır */
+.is-leaving body::before, .is-leaving .choose { animation: gone 0.2s ease forwards; }
+@keyframes gone {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
 /* Sadece ilk girişte görünür */
 .choose { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
 .choose[hidden] { display: none; }

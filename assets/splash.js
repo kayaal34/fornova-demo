@@ -1,4 +1,3 @@
-const wipe = document.querySelector("[data-wipe]");
 const seal = document.querySelector(".seal");
 const choose = document.querySelector("[data-choose]");
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -17,13 +16,15 @@ let gone = false;
 function go(lang) {
   if (gone) return;
   gone = true;
-  const box = seal.getBoundingClientRect();
-  wipe.style.setProperty("--x", `${box.left + box.width / 2}px`);
-  wipe.style.setProperty("--y", `${box.top + box.height * 0.27}px`);
-  wipe.getBoundingClientRect();
-  wipe.classList.add("is-on");
-  // Geri tuşu açılışa dönmesin.
-  setTimeout(() => location.replace(`${lang}/`), reduced ? 0 : 480);
+  // Sitenin üstündeki kapak logoyu aynı yerde gösterip açılır.
+  if (!reduced) {
+    const box = seal.getBoundingClientRect();
+    try {
+      sessionStorage.setItem("fornova-doors", JSON.stringify({ x: box.left, y: box.top, w: box.width }));
+    } catch {}
+  }
+  document.documentElement.classList.add("is-done", "is-leaving");
+  setTimeout(() => location.replace(`${lang}/`), reduced ? 0 : 240);
 }
 
 const saved = savedLang();

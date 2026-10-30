@@ -17,9 +17,11 @@
 <link rel="apple-touch-icon" href="../assets/logo-seal.png">
 <link rel="stylesheet" href="../assets/styles.css">
 <script>document.documentElement.classList.add("js")</script>
+<script>try{var d=JSON.parse(sessionStorage.getItem("fornova-doors"));if(d){sessionStorage.removeItem("fornova-doors");var r=document.documentElement;r.style.setProperty("--sx",d.x+"px");r.style.setProperty("--sy",d.y+"px");r.style.setProperty("--sw",d.w+"px");r.classList.add("doors-on")}}catch(e){}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Bakery","name":"Fornova Bakery","description":"Бёреки, симит, пахлава и турецкие десерты свежими под заказ. Доставка, самовывоз и мини-кафе с открытой кухней в Красногорске. +7 977 400 40 30","telephone":"+7 977 400 40 30","openingHours":"Mo-Su 08:00-21:00","email":"fornovagroup@mail.ru","servesCuisine":"Turkish","address":{"@type":"PostalAddress","streetAddress":"Бульвар Космонавтов, 7","addressLocality":"Krasnogorsk","addressCountry":"RU"},"sameAs":["https://www.instagram.com/fornova_bakery/","https://yandex.ru/maps/org/fornova_bakery/158809334810/"]}</script>
 </head>
 <body>
+<div class="doors" data-doors aria-hidden="true"><div class="doors__l"><img src="../assets/seal-static.svg" alt=""></div><div class="doors__r"><img src="../assets/seal-static.svg" alt=""></div></div>
 <a class="skip" href="#menu">Меню</a>
 
 <header class="nav" data-nav>

@@ -159,6 +159,48 @@ h3 { font-size: clamp(30px, 2.8vw, 38px); }
 .langs a { color: var(--soft); }
 .langs a:hover { color: var(--maroon); }
 
+/* Dil seçilince fırın kapağı iki kanat olup açılır */
+.doors { display: none; }
+.doors-on .doors {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 70;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  perspective: 1500px;
+  pointer-events: none;
+}
+.doors__l, .doors__r {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50vw;
+  overflow: hidden;
+  background: var(--bg);
+  backface-visibility: hidden;
+  animation: 1.15s cubic-bezier(0.65, 0, 0.25, 1) 0.2s forwards;
+}
+.doors__l { left: 0; transform-origin: 0 50%; animation-name: door-l; }
+.doors__r { left: 50vw; transform-origin: 100% 50%; animation-name: door-r; }
+/* Kanat döndükçe gölgelenir, açılan kapak olduğu anlaşılır */
+.doors__l::after, .doors__r::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--maroon);
+  opacity: 0;
+  animation: door-shade 1.15s ease-in 0.2s forwards;
+}
+@keyframes door-shade { to { opacity: 0.5; } }
+.doors img { position: absolute; top: var(--sy); width: var(--sw); max-width: none; height: auto; }
+.doors__l img { left: var(--sx); }
+.doors__r img { left: calc(var(--sx) - 50vw); }
+@keyframes door-l { to { transform: rotateY(-100deg); } }
+@keyframes door-r { to { transform: rotateY(100deg); } }
+
 /* Mobil menü */
 .burger { display: none; position: relative; }
 .burger summary {
