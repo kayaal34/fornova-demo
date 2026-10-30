@@ -12,6 +12,15 @@
     } catch {}
   });
 
+  // Mobil menü bir bağlantıya veya dışına dokununca kapanır.
+  const burger = document.querySelector("[data-burger]");
+  burger.addEventListener("click", (event) => {
+    if (event.target.closest("a")) burger.open = false;
+  });
+  document.addEventListener("click", (event) => {
+    if (!burger.contains(event.target)) burger.open = false;
+  });
+
   const revealObserver = new IntersectionObserver(
     (entries, obs) => {
       entries.forEach((entry) => {
