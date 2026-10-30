@@ -471,9 +471,11 @@ h3 { font-size: clamp(30px, 2.8vw, 38px); }
 .services h3 { font-size: 28px; }
 .services p { grid-column: 2; margin: 6px 0 0; color: var(--soft); font-size: 16px; }
 
-.about-photos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 var(--edge); }
-.about-photos figure { overflow: hidden; aspect-ratio: 4 / 3; background: var(--band); }
-.about-photos img { width: 100%; height: 100%; object-fit: cover; }
+/* Sağdan sola kayan fotoğraflar; ikinci kopya döngüyü kesintisiz yapar */
+.rail { display: flex; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.rail::-webkit-scrollbar { display: none; }
+.rail figure { flex: none; height: clamp(240px, 30vw, 420px); margin-right: 12px; overflow: hidden; border-radius: 16px; background: var(--band); }
+.rail img { width: auto; height: 100%; }
 
 .about-cta { padding: clamp(64px, 8vw, 112px) var(--gutter); text-align: center; }
 .about-cta .actions { justify-content: center; }
